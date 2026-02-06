@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finaol Strategy Arena</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #0b0f19;
+        font-family: "Inter", system-ui, sans-serif;
+        color: #e6edf3;
+      }
+      #app {
+        display: flex;
+        height: 100%;
+      }
+      #ui {
+        width: 320px;
+        background: rgba(17, 24, 39, 0.95);
+        border-right: 1px solid #1f2937;
+        padding: 16px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+      #top-bar {
+        position: absolute;
+        left: 340px;
+        right: 20px;
+        top: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 16px;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid #1f2937;
+        border-radius: 12px;
+        z-index: 5;
+        backdrop-filter: blur(6px);
+      }
+      #canvas-container {
+        flex: 1;
+        position: relative;
+      }
+      .panel {
+        margin-bottom: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 16px;
+        color: #93c5fd;
+      }
+      button {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      button:disabled {
+        background: #475569;
+        cursor: not-allowed;
+      }
+      .inventory-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 8px;
+        margin-bottom: 6px;
+        border-radius: 6px;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+      .inventory-item.selected {
+        border-color: #38bdf8;
+      }
+      .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .slot {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 8px;
+        border: 1px solid #1f2937;
+        padding: 6px;
+        text-align: center;
+        font-size: 12px;
+      }
+      .slot.locked {
+        opacity: 0.4;
+      }
+      .slot button {
+        margin-top: 4px;
+        width: 100%;
+        font-size: 11px;
+      }
+      .status-line {
+        font-size: 12px;
+        color: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="ui"></div>
+      <div id="canvas-container"></div>
+    </div>
+    <div id="top-bar"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
