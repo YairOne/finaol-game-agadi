@@ -24,6 +24,7 @@ export class GameUI {
   private base: BaseSnapshot | null = null;
   private selectedInventoryId: string | null = null;
   private npcModes: Record<string, NpcMode> = {};
+  private statusMessage = "Connecting to server...";
 
   constructor(root: HTMLElement, topBar: HTMLElement, callbacks: UiCallbacks) {
     this.root = root;
@@ -46,6 +47,13 @@ export class GameUI {
     this.render();
   }
 
+  setStatus(message: string) {
+    this.statusMessage = message;
+    if (!this.player) {
+      this.render();
+    }
+  }
+
   updateTopBar(players: Array<{ name: string; tiles: number }>) {
     this.topBar.innerHTML = `
       <div><strong>Players</strong>: ${players.map((p) => `${p.name} (${p.tiles})`).join(" | ")}</div>
@@ -54,7 +62,15 @@ export class GameUI {
   }
 
   private render() {
-    if (!this.player) return;
+    if (!this.player) {
+      this.root.innerHTML = `
+        <div class="panel">
+          <h2>Status</h2>
+          <div class="status-line">${this.statusMessage}</div>
+        </div>
+      `;
+      return;
+    }
     this.root.innerHTML = "";
 
     const inventoryPanel = document.createElement("div");
