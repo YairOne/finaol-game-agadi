@@ -4,7 +4,10 @@ import { createNpcSprite } from "./npcSprites";
 import { GameUI } from "./ui";
 import { BaseSnapshot, NpcMode, NpcSnapshot, PlayerState, TileSnapshot } from "./types";
 
-const socket: Socket = io("http://localhost:3001");
+const serverUrl =
+  import.meta.env.VITE_SERVER_URL ??
+  `${window.location.protocol}//${window.location.hostname}:3001`;
+const socket: Socket = io(serverUrl);
 
 const uiRoot = document.querySelector("#ui") as HTMLElement;
 const topBar = document.querySelector("#top-bar") as HTMLElement;
@@ -32,6 +35,18 @@ const ui = new GameUI(uiRoot, topBar, {
   onOpenBox: () => socket.emit("openBox"),
   onPlaceNpc: (slotIndex, inventoryId) => socket.emit("placeNpc", { slotIndex, inventoryId }),
   onToggleNpc: (npcId, mode) => socket.emit("setNpcMode", { npcId, mode })
+});
+
+socket.on("connect", () => {
+  ui.setStatus("Connected. Loading game state...");
+});
+
+socket.on("connect_error", () => {
+  ui.setStatus(`Unable to reach server at ${serverUrl}. Make sure it is running.`);
+});
+
+socket.on("disconnect", () => {
+  ui.setStatus("Disconnected from server. Retrying...");
 });
 
 let playerId: string | null = null;
